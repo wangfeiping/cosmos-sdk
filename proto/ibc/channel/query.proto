@@ -144,6 +144,8 @@ message QueryChannelConsensusStateRequest {
   string port_id = 1 [(gogoproto.customname) = "PortID"];
   // channel unique identifier
   string channel_id = 2 [(gogoproto.customname) = "ChannelID"];
+  // height of the consensus state
+  uint64 height = 3;
 }
 
 // QueryChannelClientStateResponse is the Response type for the
