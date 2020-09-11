@@ -8,4 +8,6 @@ const StoreCodespace = "store"
 
 var (
 	ErrInvalidProof = sdkerrors.Register(StoreCodespace, 2, "invalid proof")
+
+	ErrJustMock = sdkerrors.Register(StoreCodespace, 1000, "it's just a mock")
 )

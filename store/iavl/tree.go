@@ -1,14 +1,7 @@
 package iavl
 
-import (
-	"fmt"
-
-	"github.com/cosmos/iavl"
-)
-
 var (
 	_ Tree = (*immutableTree)(nil)
-	_ Tree = (*iavl.MutableTree)(nil)
 )
 
 type (
@@ -28,8 +21,6 @@ type (
 		Hash() []byte
 		VersionExists(version int64) bool
 		GetVersioned(key []byte, version int64) (int64, []byte)
-		GetVersionedWithProof(key []byte, version int64) ([]byte, *iavl.RangeProof, error)
-		GetImmutable(version int64) (*iavl.ImmutableTree, error)
 		SetInitialVersion(version uint64)
 	}
 
@@ -37,7 +28,6 @@ type (
 	// that implements the Tree interface. It should only be used for querying
 	// and iteration, specifically at previous heights.
 	immutableTree struct {
-		*iavl.ImmutableTree
 	}
 )
 
@@ -77,18 +67,18 @@ func (it *immutableTree) GetVersioned(key []byte, version int64) (int64, []byte)
 	return it.Get(key)
 }
 
-func (it *immutableTree) GetVersionedWithProof(key []byte, version int64) ([]byte, *iavl.RangeProof, error) {
-	if it.Version() != version {
-		return nil, nil, fmt.Errorf("version mismatch on immutable IAVL tree; got: %d, expected: %d", version, it.Version())
-	}
-
-	return it.GetWithProof(key)
+func (it *immutableTree) Has(key []byte) bool {
+	return false
 }
 
-func (it *immutableTree) GetImmutable(version int64) (*iavl.ImmutableTree, error) {
-	if it.Version() != version {
-		return nil, fmt.Errorf("version mismatch on immutable IAVL tree; got: %d, expected: %d", version, it.Version())
-	}
+func (it *immutableTree) Get(key []byte) (index int64, value []byte) {
+	return -1, nil
+}
 
-	return it.ImmutableTree, nil
+func (it *immutableTree) Version() int64 {
+	return -1
+}
+
+func (it *immutableTree) Hash() []byte {
+	return nil
 }
