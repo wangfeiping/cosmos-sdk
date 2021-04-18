@@ -192,6 +192,38 @@ func New(
 	return newKeystore(db, opts...), nil
 }
 
+// NewFileKeyring creates a new instance of a keyring for mobile-sdk.
+func NewFileKeyring(
+	appName, backend, rootDir string, passwdFunc keyring.PromptFunc,
+	opts ...Option,
+) (Keyring, error) {
+
+	cfg := newKeyringConfig(appName, rootDir,
+		keyring.FileBackend, passwdFunc)
+	db, err := keyring.Open(cfg)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return newKeystore(db, opts...), nil
+}
+
+func newKeyringConfig(
+	name, dir string,
+	backend keyring.BackendType,
+	passwdFunc keyring.PromptFunc,
+) keyring.Config {
+	fileDir := filepath.Join(dir, keyringFileDirName)
+
+	return keyring.Config{
+		AllowedBackends:  []keyring.BackendType{backend},
+		ServiceName:      name,
+		FileDir:          fileDir,
+		FilePasswordFunc: passwdFunc,
+	}
+}
+
 type keystore struct {
 	db      keyring.Keyring
 	options Options
