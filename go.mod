@@ -6,7 +6,7 @@ require (
 	cosmossdk.io/api v0.1.0-alpha8
 	cosmossdk.io/core v0.0.0
 	cosmossdk.io/errors v1.0.0-beta.6
-	cosmossdk.io/math v1.0.0-beta.2
+	cosmossdk.io/math v1.0.0-beta.6
 	github.com/99designs/keyring v1.1.6
 	github.com/armon/go-metrics v0.4.0
 	github.com/bgentry/speakeasy v0.1.0
@@ -48,14 +48,14 @@ require (
 	github.com/spf13/cobra v1.4.0
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.11.0
-	github.com/stretchr/testify v1.7.1
+	github.com/stretchr/testify v1.8.1
 	github.com/tendermint/btcd v0.1.1
 	github.com/tendermint/crypto v0.0.0-20191022145703-50d29ede1e15
 	github.com/tendermint/go-amino v0.16.0
 	github.com/tendermint/tendermint v0.35.5
 	github.com/tendermint/tm-db v0.6.6
 	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4
-	golang.org/x/exp v0.0.0-20220428152302-39d4317da171
+	golang.org/x/exp v0.0.0-20221205204356-47842c84f3db
 	google.golang.org/genproto v0.0.0-20220407144326-9054f6ed7bac
 	google.golang.org/grpc v1.46.2
 	google.golang.org/protobuf v1.28.0
@@ -142,7 +142,7 @@ require (
 	golang.org/x/net v0.0.0-20220412020605-290c469a71a5 // indirect
 	golang.org/x/oauth2 v0.0.0-20220411215720-9780585627b5 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20220517195934-5e4e11fc645e // indirect
+	golang.org/x/sys v0.1.0 // indirect
 	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/xerrors v0.0.0-20220411194840-2f41105eb62f // indirect
