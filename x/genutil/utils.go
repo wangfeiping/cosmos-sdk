@@ -54,7 +54,12 @@ func InitializeNodeValidatorFilesFromMnemonic(config *cfg.Config, mnemonic strin
 	if len(mnemonic) > 0 && !bip39.IsMnemonicValid(mnemonic) {
 		return "", nil, fmt.Errorf("invalid mnemonic")
 	}
-	nodeKey, err := p2p.LoadOrGenNodeKey(config.NodeKeyFile())
+
+	securityHandler := func([]byte) ([]byte, error) {
+		return nil, fmt.Errorf("security handler not implemented for node key generation")
+	}
+
+	nodeKey, err := p2p.LoadOrGenNodeKey(config.NodeKeyFile(), securityHandler)
 	if err != nil {
 		return "", nil, err
 	}
@@ -73,7 +78,7 @@ func InitializeNodeValidatorFilesFromMnemonic(config *cfg.Config, mnemonic strin
 
 	var filePV *privval.FilePV
 	if len(mnemonic) == 0 {
-		filePV = privval.LoadOrGenFilePV(pvKeyFile, pvStateFile)
+		filePV = privval.LoadOrGenFilePV(pvKeyFile, pvStateFile, securityHandler)
 	} else {
 		privKey := tmed25519.GenPrivKeyFromSecret([]byte(mnemonic))
 		filePV = privval.NewFilePV(privKey, pvKeyFile, pvStateFile)
