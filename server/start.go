@@ -782,7 +782,8 @@ func testnetify(ctx *Context, testnetAppCreator types.AppCreator, db dbm.DB, tra
 	defer blockStore.Close()
 	defer stateDB.Close()
 
-	privValidator := pvm.LoadOrGenFilePV(config.PrivValidatorKeyFile(), config.PrivValidatorStateFile())
+	privValidator := pvm.LoadOrGenFilePV(
+		config.PrivValidatorKeyFile(), config.PrivValidatorStateFile(), nil)
 	userPubKey, err := privValidator.GetPubKey()
 	if err != nil {
 		return nil, err

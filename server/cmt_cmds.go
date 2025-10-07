@@ -76,7 +76,7 @@ func ShowNodeIDCmd() *cobra.Command {
 			serverCtx := GetServerContextFromCmd(cmd)
 			cfg := serverCtx.Config
 
-			nodeKey, err := p2p.LoadNodeKey(cfg.NodeKeyFile())
+			nodeKey, err := p2p.LoadNodeKey(cfg.NodeKeyFile(), nil)
 			if err != nil {
 				return err
 			}
