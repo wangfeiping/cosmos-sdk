@@ -39,7 +39,11 @@ func startInProcess(cfg Config, val *Validator) error {
 		return err
 	}
 
-	nodeKey, err := p2p.LoadOrGenNodeKey(cmtCfg.NodeKeyFile())
+	securityHandler := func([]byte) ([]byte, error) {
+		return nil, fmt.Errorf("security handler not implemented for node key generation")
+	}
+
+	nodeKey, err := p2p.LoadOrGenNodeKey(cmtCfg.NodeKeyFile(), securityHandler)
 	if err != nil {
 		return err
 	}
@@ -59,7 +63,8 @@ func startInProcess(cfg Config, val *Validator) error {
 	cmtApp := server.NewCometABCIWrapper(app)
 	tmNode, err := node.NewNode( //resleak:notresource
 		cmtCfg,
-		pvm.LoadOrGenFilePV(cmtCfg.PrivValidatorKeyFile(), cmtCfg.PrivValidatorStateFile()),
+		pvm.LoadOrGenFilePV(
+			cmtCfg.PrivValidatorKeyFile(), cmtCfg.PrivValidatorStateFile(), securityHandler),
 		nodeKey,
 		proxy.NewLocalClientCreator(cmtApp),
 		appGenesisProvider,
