@@ -369,7 +369,9 @@ func startCmtNode(
 	app types.Application,
 	svrCtx *Context,
 ) (tmNode *node.Node, cleanupFn func(), err error) {
-	nodeKey, err := p2p.LoadOrGenNodeKey(cfg.NodeKeyFile())
+	securityHandler := app.SecurityHandler()
+
+	nodeKey, err := p2p.LoadOrGenNodeKey(cfg.NodeKeyFile(), securityHandler)
 	if err != nil {
 		return nil, cleanupFn, err
 	}
@@ -378,7 +380,8 @@ func startCmtNode(
 	tmNode, err = node.NewNodeWithContext(
 		ctx,
 		cfg,
-		pvm.LoadOrGenFilePV(cfg.PrivValidatorKeyFile(), cfg.PrivValidatorStateFile()),
+		pvm.LoadOrGenFilePV(
+			cfg.PrivValidatorKeyFile(), cfg.PrivValidatorStateFile(), securityHandler),
 		nodeKey,
 		proxy.NewLocalClientCreator(cmtApp),
 		getGenDocProvider(cfg),

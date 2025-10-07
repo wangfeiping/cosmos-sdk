@@ -62,6 +62,8 @@ type (
 		// Close is called in start cmd to gracefully cleanup resources.
 		// Must be safe to be called multiple times.
 		Close() error
+
+		SecurityHandler() func([]byte) ([]byte, error)
 	}
 
 	// AppCreator is a function that allows us to lazily initialize an
