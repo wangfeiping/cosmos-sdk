@@ -56,6 +56,8 @@ type App struct {
 	// initChainer is the init chainer function defined by the app config.
 	// this is only required if the chain wants to add special InitChainer logic.
 	initChainer sdk.InitChainer
+
+	securityHandler func([]byte) ([]byte, error)
 }
 
 // RegisterModules registers the provided modules with the module manager and
@@ -264,6 +266,14 @@ func (a *App) UnsafeFindStoreKey(storeKey string) storetypes.StoreKey {
 	}
 
 	return a.storeKeys[i]
+}
+
+func (a *App) SetSecurityHandler(securityHandler func([]byte) ([]byte, error)) {
+	a.securityHandler = securityHandler
+}
+
+func (a *App) SecurityHandler() func([]byte) ([]byte, error) {
+	return a.securityHandler
 }
 
 var _ servertypes.Application = &App{}
