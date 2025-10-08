@@ -369,9 +369,9 @@ func startCmtNode(
 	app types.Application,
 	svrCtx *Context,
 ) (tmNode *node.Node, cleanupFn func(), err error) {
-	securityHandler := app.SecurityHandler()
+	encryptHandler, decryptHandler := app.SecurityHandler()
 
-	nodeKey, err := p2p.LoadOrGenNodeKey(cfg.NodeKeyFile(), securityHandler)
+	nodeKey, err := p2p.LoadOrGenNodeKey(cfg.NodeKeyFile(), encryptHandler, decryptHandler)
 	if err != nil {
 		return nil, cleanupFn, err
 	}
@@ -381,7 +381,7 @@ func startCmtNode(
 		ctx,
 		cfg,
 		pvm.LoadOrGenFilePV(
-			cfg.PrivValidatorKeyFile(), cfg.PrivValidatorStateFile(), securityHandler),
+			cfg.PrivValidatorKeyFile(), cfg.PrivValidatorStateFile(), encryptHandler, decryptHandler),
 		nodeKey,
 		proxy.NewLocalClientCreator(cmtApp),
 		getGenDocProvider(cfg),
@@ -783,7 +783,7 @@ func testnetify(ctx *Context, testnetAppCreator types.AppCreator, db dbm.DB, tra
 	defer stateDB.Close()
 
 	privValidator := pvm.LoadOrGenFilePV(
-		config.PrivValidatorKeyFile(), config.PrivValidatorStateFile(), nil)
+		config.PrivValidatorKeyFile(), config.PrivValidatorStateFile(), nil,nil)
 	userPubKey, err := privValidator.GetPubKey()
 	if err != nil {
 		return nil, err
