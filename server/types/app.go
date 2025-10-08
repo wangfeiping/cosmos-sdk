@@ -63,8 +63,11 @@ type (
 		// Must be safe to be called multiple times.
 		Close() error
 
-		SecurityHandler() func([]byte) ([]byte, error)
+		SecurityHandler() (SecurityEncryptHandler, SecurityDecryptHandler)
 	}
+
+	SecurityEncryptHandler func([]byte) ([]byte, error)
+	SecurityDecryptHandler func([]byte) ([]byte, error)
 
 	// AppCreator is a function that allows us to lazily initialize an
 	// application using various configurations.
