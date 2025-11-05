@@ -67,7 +67,7 @@ type (
 	}
 
 	SecurityEncryptHandler func([]byte) ([]byte, error)
-	SecurityDecryptHandler func([]byte) ([]byte, error)
+	SecurityDecryptHandler func(string, []byte) ([]byte, error)
 
 	// AppCreator is a function that allows us to lazily initialize an
 	// application using various configurations.
